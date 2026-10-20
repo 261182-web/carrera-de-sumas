@@ -1,1 +1,133 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Carrera de Sumas</title></head><body style="font-family:system-ui;text-align:center;padding:40px;background:#7dd3fc"><h1>🦊 Carrera de Sumas 🐰</h1><p>Actualizando juego... recarga en un momento.</p></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#38bdf8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Carrera de Sumas">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<link rel="icon" href="icon-192.svg" type="image/svg+xml">
+<title>Carrera de Sumas 🏁</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
+<!-- 1. CARGA -->
+<div id="loader">
+  <div class="loader-bg-sun"></div>
+  <div class="loader-cloud lc1"></div>
+  <div class="loader-cloud lc2"></div>
+  <div class="loader-cloud lc3"></div>
+  <div class="loader-sparkles">
+    <span>✨</span><span>⭐</span><span>💫</span>
+    <span>✨</span><span>🌟</span><span>⭐</span>
+  </div>
+  <div class="loader-content">
+    <div class="loader-logo"><span>S</span><span>u</span><span>m</span><span>a</span><span>s</span></div>
+    <div class="loader-sub">¡Carrera de Sumas!</div>
+    <div class="loader-mascots">
+      <div class="loader-mascot">🦊</div>
+      <div class="loader-mascot">🐰</div>
+    </div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+    <div class="loader-text">Cargando aventura...</div>
+  </div>
+</div>
+
+<!-- 2. TÍTULO / CINEMÁTICA (tipo Mario Bros) -->
+<div id="title">
+  <div class="title-hills"></div>
+  <div class="t-rainbow"></div>
+  <div class="t-cloud tc1"></div>
+  <div class="t-cloud tc2"></div>
+  <div class="t-cloud tc3"></div>
+  <div class="t-sun">
+    <div class="t-sun-face">
+      <div class="t-ray"></div><div class="t-ray"></div><div class="t-ray"></div><div class="t-ray"></div>
+      <div class="t-ray"></div><div class="t-ray"></div><div class="t-ray"></div><div class="t-ray"></div>
+      <div class="t-sun-eye l"></div><div class="t-sun-eye r"></div>
+      <div class="t-sun-smile"></div>
+    </div>
+  </div>
+  <div class="t-sparkle">✨</div>
+  <div class="t-sparkle">⭐</div>
+  <div class="t-sparkle">💫</div>
+  <div class="t-sparkle">🌟</div>
+  <div class="t-flower">🌸</div>
+  <div class="t-flower">🌼</div>
+  <div class="t-flower">🌷</div>
+  <div class="t-flower">🌺</div>
+
+  <div class="t-content">
+    <div class="t-logo-top">Carrera de</div>
+    <div class="t-logo-main">
+      <span>S</span><span>u</span><span>m</span><span>a</span><span>s</span>
+    </div>
+    <div class="t-banner">⭐ ¡Suma, avanza y llega primero! ⭐</div>
+    <div class="t-mascots">
+      <div class="t-mascot">🦊</div>
+      <div class="t-mascot">🐰</div>
+    </div>
+    <div class="t-press">▶  Pulsa para empezar  ◀</div>
+  </div>
+</div>
+
+<!-- 3. MENÚ DE OPCIONES -->
+<div id="menu">
+  <div class="menu-hills"></div>
+  <div class="m-cloud mc1"></div>
+  <div class="m-cloud mc2"></div>
+  <div class="menu-content">
+    <div class="menu-mascots">
+      <div class="menu-mascot">🦊</div>
+      <div class="menu-mascot">🐰</div>
+    </div>
+    <div class="menu-logo">Carrera de Sumas</div>
+    <div class="menu-sub">¡Elige cómo jugar!</div>
+    <div class="menu-card">
+      <div class="menu-title">¿Con quién quieres jugar?</div>
+      <button class="mode-btn friend" onclick="startGame(false)"><span class="emoji">👥</span> Con un amigo</button>
+      <button class="mode-btn cpu" onclick="startGame(true)"><span class="emoji">🤖</span> Contra la computadora</button>
+      <div class="howto-box"><b>¿Cómo se juega?</b><br>1. Tira el dado 🎲<br>2. Resuelve la suma<br>3. Si aciertas → ¡avanzas!<br>4. Si fallas → te quedas<br>Meta: casilla <b>20</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. JUEGO -->
+<div id="game">
+  <div class="top-bar">
+    <div class="turn-badge" id="turnBadge"><span id="turnEmoji">🦊</span><span id="turn">Turno de Zorro</span></div>
+    <div class="score-pills"><div class="pill red" id="score0">🦊 1</div><div class="pill blue" id="score1">🐰 1</div></div>
+  </div>
+  <div class="dice-panel"><div id="dice">🎲</div><button class="btn" id="rollBtn" onclick="roll()">🎲 ¡Tirar dado!</button></div>
+  <div class="board-wrap"><div id="board"></div></div>
+  <div id="qbox">
+    <p class="q-label">Resuelve la suma para avanzar</p>
+    <p class="question" id="qtext">5 + 3 = ?</p>
+    <div class="input-row"><input type="text" id="ans" placeholder="?" inputmode="numeric" autocomplete="off"><button class="btn green" onclick="check()">✓ ¡Listo!</button></div>
+    <p id="msg"></p>
+  </div>
+  <div id="final">
+    <div class="win-title" id="winTitle">🏆 ¡Ganaste!</div>
+    <p class="win-sub" id="winSub"></p>
+    <button class="btn green" onclick="restart()">🔄 Jugar otra vez</button><br><br>
+    <button class="btn ghost" onclick="goHome()">← Volver al inicio</button>
+  </div>
+</div>
+<script src="game.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').catch(err=>console.log('SW reg failed',err));
+  });
+}
+</script>
+</body>
+</html>
